@@ -1,0 +1,19 @@
+{
+  "name": "rvue-study",
+  "version": "1.0.0",
+  "description": "vue源码简单学习",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rainnaZR/rvue-study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rainnaZR/rvue-study/issues"
+  },
+  "homepage": "https://github.com/rainnaZR/rvue-study#readme"
+}
