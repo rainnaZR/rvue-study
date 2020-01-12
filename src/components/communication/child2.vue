@@ -1,13 +1,16 @@
 <template>
     <div>
         <p>Child2: {{title}}</p>
+        <!-- props -->
+        <p>获取来自父组件的数据：{{msg}}</p>
         <!-- provice/inject -->
-        <p>获取来自父组件的名称：{{parentName}}</p>
+        <p>获取来自父组件的数据：{{parentName}}</p>
     </div>
 </template>
 
 <script>
 export default {
+    props: ['msg'],
     inject: ['parentName'],
     data(){
         return {

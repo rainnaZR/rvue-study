@@ -1,8 +1,10 @@
 <template>
     <div>
         <p>hello world, APP{{name}}</p>
+        <!-- $attrs -->
         <Child1 :msg="msg"/>
-        <Child2 />
+        <!-- props -->
+        <Child2 :msg="msg"/>
         <!-- $children -->
         <button @click="onChildrenEvent">调用子组件的方法</button>
     </div>

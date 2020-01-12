@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- $parent -->
-    <button @click="click">Child1: {{title}}</button>
+    <button @click="click">child1 点击，{{title}}</button>
     <!-- $attrs -->
     <p>接收到父组件的参数msg: {{$attrs.msg}}</p>
 </div>
