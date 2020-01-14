@@ -22,9 +22,10 @@
 </template>
 
 <script>
-import Form from './form'
-import FormItem from './formItem'
-import Input from './input'
+import Form from 'packages_path/form/form'
+import FormItem from 'packages_path/form/formItem'
+import Input from 'packages_path/form/input'
+import Notice from 'packages_path/notice'
 
 export default {
     data(){
@@ -39,17 +40,20 @@ export default {
     components: {
         Form,
         FormItem,
-        Input
+        Input,
+        Notice
     },
     methods: {
         submit(){
             // 调用表单的全局验证方法
             this.$refs.form.validate(result => {
-                if(result){
-                    alert('表单提交成功')
-                }else{
-                    alert('表单提交失败')
-                }
+                // 使用notice组件
+                const notice = this.$create(Notice, {
+                    title: '反馈通知',
+                    content: result ? '表单提交成功' : '表单提交失败',
+                    duration: 1000
+                })
+                notice.show();
             })
         }
     }

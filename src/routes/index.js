@@ -1,6 +1,6 @@
 import Communication from 'components_path/communication'
 import Slot from 'components_path/slot'
-import Form from 'packages_path/form/demo'
+import Form from 'components_path/form'
 
 export default {
     mode: 'history',
@@ -13,7 +13,7 @@ export default {
         name: 'slot',
         component: Slot
     },{
-        path: '/packages/form',
+        path: '/form',
         name: 'form',
         component: Form
     }]

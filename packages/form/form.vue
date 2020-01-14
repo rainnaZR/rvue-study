@@ -8,7 +8,7 @@
 export default {
     provide(){
         return {
-            form: this // 将整个form实例提供出去
+            form: this // 将当前表单form的实例提供出去
         }
     },
     props: {
