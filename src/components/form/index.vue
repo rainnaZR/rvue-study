@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import Form from 'packages_path/form/form'
-import FormItem from 'packages_path/form/formItem'
-import Input from 'packages_path/form/input'
-import Notice from 'packages_path/notice'
+import Form from 'vui/form/form'
+import FormItem from 'vui/form/formItem'
+import Input from 'vui/form/input'
+import Notice from 'vui/notice'
 
 export default {
     data(){
