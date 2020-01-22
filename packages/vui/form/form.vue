@@ -28,7 +28,6 @@ export default {
         this.$on('vui.form.addFiled', item => {
             this.fileds.push(item);
         })
-        console.log('this.fileds', this.fileds)
     },
     methods: {
         // 整个表单还需要做统一的全局校验，思路是：获取所有子节点，并依次执行子节点的校验方法，并返回校验结果

@@ -22,13 +22,13 @@ export default {
     },
     provide(){
         return {
-            parentName: '我是父组件标题'
+            parentName: '我是父组件'
         }
     },
     data(){
         return {
             name: 'rainna',
-            msg: 'parent message'
+            msg: 'parent msg'
         }
     },
     methods: {
