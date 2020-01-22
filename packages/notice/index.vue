@@ -39,3 +39,15 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.m-notice{
+    position: fixed;
+    left: 50%;
+    top: 20px;
+    width: 200px;
+    background: #f60;
+    text-align: center;
+    transform: translateX(-50%);
+}
+</style>
