@@ -13,9 +13,13 @@ function create(Component, props){
     })
     // 组件挂载，虚拟dom挂载后才能生成真实dom
     comp.$mount();
+    // 获取真实dom，并追加到body中
     document.body.appendChild(comp.$el);
+    // 组件的删除
     comp.remove = () => {
+        // 节点删除
         document.body.removeChild(comp.$el);
+        // 组件实例销毁
         comp.$destroy();
     }
 
@@ -32,12 +36,11 @@ function create2(Component, props){
         // h是createElement，返回VNode, VNode是虚拟dom
         // 需要挂载才能变成真实Dom
         render: h => h(Component, {props})
-    }).$mount()  
-        // $mount()不指定宿主元素，则会创建真实dom，但是不会追加操作
-
+    })
+    // $mount()不指定宿主元素，则会创建真实dom，但是不会追加操作
+    vm.$mount();
     // 获取真实dom，并追加到body中
     document.body.appendChild(vm.$el)
-    
     const comp = vm.$children[0]
     // 组件的删除
     comp.remove = function(){
