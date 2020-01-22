@@ -32,6 +32,12 @@ export default {
         this.$on('validate', () => {
             this.validate();
         })
+
+        // 把没有prop属性的节点过滤掉，比如button等没有prop属性的FormItem实例
+        if(!this.prop) return;
+
+        // 派发事件，并通知Form新增当前FormItem的实例，用于在Form做全局校验时遍历FormItem实例
+        this.dispatch('Form', 'vui.form.addFiled', [this])
     },
     methods: {
         validate(){

@@ -16,7 +16,11 @@ export default {
     },
     methods: {
         click(){
-            this.$parent.$emit('child1Click', 'child1 点击，发送消息，触发事件')
+            // 方法一：使用this.$parent实现
+            // this.$parent.$emit('child1Click', 'child1 点击，发送消息，触发事件');
+            
+            // 方法二：使用this.dispatch实现
+            this.dispatch('Communication', 'child1Click', 'child1 点击，发送消息，触发事件')
         },
         getTitle(){
             console.log('调用Child1里的getTitle方法', this.title)

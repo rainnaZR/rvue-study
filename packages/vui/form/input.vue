@@ -7,10 +7,7 @@
 </template>
 
 <script>
-import emitter from 'vui/mixins/emitter'
-
 export default {
-    mixins: [emitter],
     inheritAttrs: false,  // 设置为false，避免将属性设置到根元素上
     props: {
         type: {
@@ -27,9 +24,11 @@ export default {
             // 派发input事件
             this.$emit('input', e.target.value)
             
+            // 方法一，使用this.$parent实现
             // 通知父级执行数据的校验
             // this.$parent.$emit('validate')
 
+            // 方法二，使用this.dispatch实现
             // 使用emitter里面的dispatch派发事件
             this.dispatch('FormItem', 'validate');
         }

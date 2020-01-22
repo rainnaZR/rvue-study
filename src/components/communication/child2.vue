@@ -18,7 +18,13 @@ export default {
         }
     },
     mounted(){
-        this.$parent.$on('child1Click', (msg) => {
+        // 方法一：使用this.$parent实现
+        // this.$parent.$on('child1Click', (msg) => {
+        //     console.log(msg)
+        // })
+
+        // 方法二：使用this.dispatch实现
+        this.dispatch('Communication', 'child1Click', (msg) => {
             console.log(msg)
         })
     },
