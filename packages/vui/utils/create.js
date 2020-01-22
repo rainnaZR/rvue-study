@@ -1,9 +1,31 @@
 import Vue from 'vue'
 
+//以下用两个方法实现同样的功能
+
 function create(Component, props){
     // 通过Component配置项获取组件的构造函数
-    // 组件构造函数获取方式有以下2种
-    // 1. Vue.extent()
+    // 组件构造函数获取方式有以下2种 Vue.extend和render
+    // 1：Vue.extend()
+    const Constructor = Vue.extend(Component);
+    // 创建组件实例，生成的是虚拟dom
+    const comp = new Constructor({
+        propsData: props
+    })
+    // 组件挂载，虚拟dom挂载后才能生成真实dom
+    comp.$mount();
+    document.body.appendChild(comp.$el);
+    comp.remove = () => {
+        document.body.removeChild(comp.$el);
+        comp.$destroy();
+    }
+
+    return comp;
+}
+
+// 2. render
+function create2(Component, props){
+    // 通过Component配置项获取组件的构造函数
+    // 组件构造函数获取方式有以下2种 Vue.extend和render
     // 2. render
     // vm就是组件实例
     const vm = new Vue({
