@@ -51,7 +51,7 @@ export default {
                 const notice = this.$create(Notice, {
                     title: '反馈通知',
                     content: result ? '表单提交成功' : '表单提交失败',
-                    duration: 1000
+                    duration: 2500
                 })
                 notice.show();
             })

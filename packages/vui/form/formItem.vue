@@ -13,6 +13,7 @@
 import Schema from 'async-validator'
 
 export default {
+    componentName: 'FormItem',
     inject: ['form'], //form组件使用provide提供数据，formItem使用inject获取数据
     props: {
         label: {  // label标签
