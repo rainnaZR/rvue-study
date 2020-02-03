@@ -7,8 +7,8 @@ import emitter from 'vui/mixins/emitter'
 
 const router = new Router(routes)
 
-Vue.use(Router)
-Vue.prototype.$create = create
+Vue.use(Router);
+Vue.use(create);
 Vue.mixin(emitter);
 
 new Vue({

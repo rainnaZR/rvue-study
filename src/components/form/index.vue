@@ -25,7 +25,6 @@
 import Form from 'vui/form/form'
 import FormItem from 'vui/form/formItem'
 import Input from 'vui/form/input'
-import Notice from 'vui/notice'
 
 export default {
     data(){
@@ -40,15 +39,14 @@ export default {
     components: {
         Form,
         FormItem,
-        Input,
-        Notice
+        Input
     },
     methods: {
         submit(){
             // 调用表单的全局验证方法
             this.$refs.form.validate(result => {
                 // 使用notice组件
-                const notice = this.$create(Notice, {
+                const notice = this.$notice({
                     title: '反馈通知',
                     content: result ? '表单提交成功' : '表单提交失败',
                     duration: 2500

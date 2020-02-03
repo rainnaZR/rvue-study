@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Notice from '../notice'
 
 //以下用两个方法实现同样的功能
 
@@ -53,4 +54,10 @@ function create2(Component, props){
     return comp;
 }
 
-export default create
+export default {
+    install(Vue) {
+        Vue.prototype.$notice = function(options) {
+            return create(Notice, options)
+        }
+    }
+}
