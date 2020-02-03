@@ -1,19 +1,19 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import routes from './routes'
-import App from './app'
 import create from 'vui/utils/create'
 import emitter from 'vui/mixins/emitter'
+import App from './app'
+import router from './router'
 
-const router = new Router(routes)
-
-Vue.use(Router);
 Vue.use(create);
 Vue.mixin(emitter);
 
+// new Vue({
+//     el: '#app',
+//     components: { App },
+//     template: '<App />',
+//     router  // Vue.prototype.$router = router
+// })
 new Vue({
-    el: '#app',
-    components: { App },
-    template: '<App />',
-    router
-})
+    render: h => h(App),
+    router  // Vue.prototype.$router = router
+}).$mount('#app')
