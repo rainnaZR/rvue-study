@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import Router from 'vue-router'
+import Router from 'rVueRouter'
 
 import Communication from 'components_path/communication'
 import Slot from 'components_path/slot'
