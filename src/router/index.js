@@ -1,10 +1,10 @@
-
 import Vue from 'vue'
 import Router from 'rvue-router'
 
 import Communication from 'components_path/communication'
 import Slot from 'components_path/slot'
 import Form from 'components_path/form'
+import Vuex from 'components_path/vuex'
 
 const routes = [{
     path: '/communication',
@@ -18,6 +18,10 @@ const routes = [{
     path: '/form',
     name: 'form',
     component: Form
+},{
+    path: '/vuex',
+    name: 'vuex',
+    component: Vuex
 }]
 
 // 第一步 应用注册插件
