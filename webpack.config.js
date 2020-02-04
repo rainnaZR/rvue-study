@@ -25,8 +25,7 @@ module.exports = {
             src_path: path.resolve(__dirname, 'src'),
             components_path: path.resolve(__dirname, 'src/components'),
             packages_path: path.resolve(__dirname, 'packages'),
-            vui: path.resolve(__dirname, 'packages/vui'),
-            rVueRouter: path.resolve(__dirname, 'packages/rvue-router')
+            vui: path.resolve(__dirname, 'packages/vui')
         }
     },
     module: {
