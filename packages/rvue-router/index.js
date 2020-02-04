@@ -58,4 +58,4 @@ Router.install = function(_Vue){
     Vue.component('router-view', RouterView);
 }
 
- export default Router
+export default Router
