@@ -8,6 +8,10 @@ class Store{
         // 保存所有actions
         this._actions = options.actions;
 
+        // 处理所有getters
+        // 定义computed选项
+        const { computed } = this.dealGetters(options.getters);
+
         // 响应化处理state，当state值发生变化时，触发渲染函数重新渲染视图
         // 可以通过实例化Vue，在data中设置使属性变为响应式
         // this.state = new Vue({
@@ -16,12 +20,40 @@ class Store{
         this._vm = new Vue({
             data: {
                 $$state: options.state
-            }
+            },
+            computed
         });
 
         // 绑定commit，dispatch的上下文为当前store实例
         this.commit = this.commit.bind(this);
         this.dispatch = this.dispatch.bind(this);
+    }
+
+    // store中getters定义方式{ doubleCounter(state){return state.counter * 2} }
+    // store中读取getter里的值：{{$store.getters.doubleCounter}}
+    dealGetters(getters = {}){
+        let computed = {};
+        let store = this;
+        store.getters = {};
+        // 遍历用户定义的getters
+        Object.keys(getters).forEach(key => {
+            // 获取用户定义的getter
+            const getter = getters[key];  // 比如 doubleCounter(state){return state.counter * 2}
+            // 将getter转换为computed形式，computed里的函数是无参数的
+            // computed计算属性，实际上是调用getters里的方法
+            computed[key]= function(){
+                return getter(store.state);
+            };
+            // 为getters定义只读属性
+            // 当读取getters里面的属性值时，其实是读取的vue实例里的computed计算属性
+            Object.defineProperty(store.getters, key, {
+                get: () => store._vm[key]
+            });
+        });
+        
+        return {
+            computed
+        };
     }
 
     // 存取器
