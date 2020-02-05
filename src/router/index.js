@@ -21,7 +21,11 @@ const routes = [{
 },{
     path: '/vuex',
     name: 'vuex',
-    component: Vuex
+    component: Vuex,
+    children: [{
+        path: '/vuex/demo',
+        component: Form
+    }]
 }]
 
 // 第一步 应用注册插件
