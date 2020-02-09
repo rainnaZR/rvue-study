@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>MVVM框架测试页面</title>
+    </head>
+
+    <body>
+        <div id="box">
+            <!-- 插值 -->
+            <p>{{counter}}</p>
+            <!-- 指令-->
+            <p r-text="counter"></p>
+            <p r-html="html"></p>
+        </div>
+
+        <script src="index.js"></script>
+        <script src="compiler.js"></script>
+        <script>
+        const app = new RVue({
+            el: "#box",
+            data: {
+                counter: 1,
+                html: '<span style="color:red;">hello world</span>'
+            }
+        })
+
+        setInterval(() => {
+            app.counter ++
+        }, 1000)
+        </script>
+    </body>
+</html>
