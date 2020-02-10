@@ -1,4 +1,5 @@
 // 第二步：模板引擎：视图的模板语法，比如v-bind, v-on, v-for, v-if等
+// Compile: 编译模板，初始化视图，收集依赖
 // 编译器
 // 递归遍历dom树
 // 判断节点类型：如果是文本，则判断是否是插值绑定
@@ -42,11 +43,12 @@ class Compiler{
         return node.nodeType === 1;
     }
 
-    // 判断是否是文本元素，且内容是{{xx}}
+    // 判断是否是文本元素，且内容是插值形式{{xx}}
     isInter(node){
         return node.nodeType === 3 && /\{\{(\w*)\}\}/.test(node.textContent);
     }
 
+    // 编译元素
     compileElement(node){
         // 节点是元素
         // 遍历其属性列表
@@ -65,6 +67,13 @@ class Compiler{
         })
     }
 
+    // 编译文本
+    compileText(node){
+        // 调用更新函数
+        this.update(node, RegExp.$1, 'text'); //RegExp.$1为插值取出来的属性，也就是isInter()方法里正则表达式取出的值 
+    }
+
+    // 判断是否是指令
     isDirective(value){
         return value.indexOf('r-') === 0;
     }
@@ -72,14 +81,35 @@ class Compiler{
     // 指令方法
     // r-text
     text(node, value){
-        node.textContent = this.$vm[value];
+        // 调用更新方法
+        this.update(node, value, 'text');
     }
     // r-html
     html(node, value){
-        node.innerHTML = this.$vm[value];
+        // 调用更新方法
+        this.update(node, value, 'html');
     }
 
-    compileText(node){
-        node.textContent = this.$vm[RegExp.$1];  //RegExp.$1为插值取出来的属性 
+    // 公共的更新函数
+    // node 要作用的节点
+    // property 表达式，也可能是属性名. 比如counter
+    // directive 指令名称. 比如 r-text
+    update(node, property, directive){
+        // 初始化视图
+        // 指令对应的更新函数 xxUpdater
+        const fn = this[`${directive}Updater`];  // directive： 比如text(r-text), html(r-html), if(r-if)等
+        fn && fn(node, this.$vm[property]);  // fn为更新函数
+
+        // 更新视图，每更新一次，就添加一个watcher，把update更新函数传入
+        // 更新处理，封装一个更新函数，用于更新dom元素
+        new Watcher(this.$vm, property, function(value){
+            fn && fn(node, value);
+        })
+    }
+    textUpdater(node, value){
+        node.textContent = value;
+    }
+    htmlUpdater(node, value){
+        node.innerHTML = value;
     }
 }

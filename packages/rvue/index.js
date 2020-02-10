@@ -5,10 +5,10 @@
 
 // 设计过程及概念
 // - RVue: 框架构造函数
-// - Observer: 执行数据响应化(检测数据类型：对象/数组)
+// - Observer: 执行数据响应化(检测数据类型：对象/数组，监听数据属性)
 // - Compile: 编译模板，初始化视图，收集依赖
-// - Watcher: 执行更新函数，更新dom
-// - Dep: 管理多个watcher,批量更新
+// - Watcher: 执行更新函数，更新dom；视图中每定义一次，就对应一个watcher
+// - Dep: 管理多个watcher；实现批量更新，与属性key是一对一的关系，与watcher是一对多的关系，也就是一个属性有一个Dep，一个Dep管理一个或多个watcher
 
 
 // RVue: 框架构造函数
@@ -52,7 +52,37 @@ class Observer{
     }
 }
 
+// Watcher：观察者，执行更新函数，更新dom
+class Watcher{
+    constructor(vm, key, updateFn){
+        this.$vm = vm;
+        this.key = key;
+        this.updateFn = updateFn;
 
+        Dep.target = this;
+        this.$vm[this.key];   // 读取属性触发属性的get方法
+        Dep.target = null;    // 依赖收集完成后立即清除
+    }
+
+    update(){
+        this.updateFn.call(this.$vm, this.$vm[this.key]);
+    }
+}
+
+// Dep: 管理多个watcher，批量更新，与key是一对一的关系，与watcher是一对多的关系
+class Dep{
+    constructor(){
+        this.deps = [];
+    }
+
+    addDep(dep){
+        this.deps.push(dep);
+    }
+
+    notify(){
+        this.deps.forEach(dep => dep.update());
+    }
+}
 
 
 // 第一步：数据响应式实现，这里使用Object.defineProperty()实现
@@ -69,10 +99,16 @@ function defineReactive(obj, key, value){
     // 递归值
     observe(value);
 
+    // 创建一个Dep，和当前key一一对应，用来收集和管理watcher
+    let dep = new Dep();
+
     // 对传入的obj进行访问拦截
     Object.defineProperty(obj, key, {
         get() {
             console.log(`get ${key}`);
+            // 添加依赖，依赖收集
+            // Dep.target指创建的watcher实例，添加wacher实例
+            Dep.target && dep.addDep(Dep.target);
             return value;
         },
         set(newValue) {
@@ -81,6 +117,11 @@ function defineReactive(obj, key, value){
                 // 如果新值newValue是对象，则需要修改为响应式
                 observe(newValue);
                 value = newValue;
+
+                // 当值发生改变时，执行dep的notify方法，通知dep里的watcher执行更新函数，触发视图更新
+                // 此时数据变化，驱动视图更新
+                // 通知更新
+                dep.notify();
             }
         }
     })
