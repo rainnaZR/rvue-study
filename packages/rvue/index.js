@@ -1,7 +1,8 @@
 // MVVM框架的三要素：
 // - 数据响应式：监听数据变化并更新，Object.defineProperty(), Proxy；数组的数据响应式是重写数组原型上的7个方法
-// - 模板引擎：视图的模板语法，比如v-bind, v-on, v-for, v-if等
-// - 模板渲染：将模板转换成html，vdom转换成dom
+// - 模板编译
+//      - 模板引擎：视图的模板语法，比如v-bind, v-on, v-for, v-if等
+//      - 模板渲染：将模板转换成html，vdom转换成dom
 
 // 设计过程及概念
 // - RVue: 框架构造函数

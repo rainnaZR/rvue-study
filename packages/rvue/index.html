@@ -15,6 +15,10 @@
             <!-- 指令-->
             <p r-text="counter"></p>
             <p r-html="html"></p>
+            <input r-model="name" />
+            <p r-text="name"></p>
+            <!-- 事件-->
+            <p @click="getName">调用方法</p>
         </div>
 
         <script src="index.js"></script>
@@ -24,10 +28,15 @@
             el: "#box",
             data: {
                 counter: 1,
-                html: '<span style="color:red;">hello world</span>'
+                html: '<span style="color:red;">hello world</span>',
+                name: ''
+            },
+            methods: {
+                getName(){
+                    alert(this.name)
+                }
             }
         })
-
         setInterval(() => {
             app.counter ++
         }, 1000)

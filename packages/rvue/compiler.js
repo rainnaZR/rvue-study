@@ -59,12 +59,20 @@ class Compiler{
             const attrValue = attr.value;  // count为属性名
             if(this.isDirective(attrName)){
                 // 如果是指令
-                const dirctive = attrName.substring(2);  // text
+                const directive = attrName.substring(2);  // text
                 // 执行指令
                 // 指令为方法名
-                this[dirctive] && this[dirctive](node, attrValue);
+                this[directive] && this[directive](node, attrValue);
+            }else if(this.isEvent(attrName)){
+                // 如果是事件
+                // @click="onClick"
+                const directive = attrName.substring(1);   // @click => click
+                // 事件监听
+                // attrValue是事件调用时执行的方法名字
+                // directive是事件类型，比如click
+                this.eventHandler(node, attrValue, directive);
             }
-        })
+        });
     }
 
     // 编译文本
@@ -78,6 +86,11 @@ class Compiler{
         return value.indexOf('r-') === 0;
     }
 
+    // 判断是否是事件
+    isEvent(value){
+        return value.indexOf('@') == 0;
+    }
+
     // 指令方法
     // r-text
     text(node, value){
@@ -88,6 +101,20 @@ class Compiler{
     html(node, value){
         // 调用更新方法
         this.update(node, value, 'html');
+    }
+    // r-model
+    // r-model="xxx"
+    // 双向绑定，执行两个操作：
+    // 1. 数据变化触发视图（输入框值）变化  modelUpdater
+    // 2. 视图（输入框值）变化触发数据变化  input事件监听
+    model(node, value){
+        // update方法只完成赋值和更新
+        this.update(node, value, 'model');
+        // 事件监听
+        // 以输入框的input事件为例
+        node.addEventListener('input', e => {
+            this.$vm[value] = e.target.value;
+        });
     }
 
     // 公共的更新函数
@@ -111,5 +138,17 @@ class Compiler{
     }
     htmlUpdater(node, value){
         node.innerHTML = value;
+    }
+    modelUpdater(node, value){
+        node.value = value;
+    }
+
+    // 执行事件
+    // expression是事件调用时执行的方法名字
+    // directive是事件类型，比如click
+    eventHandler(node, expression, directive){
+        // methods: {onClick(){}}
+        const fn = this.$vm.$options.methods && this.$vm.$options.methods[expression];
+        node.addEventListener(directive, fn.bind(this.$vm));
     }
 }
