@@ -19,6 +19,7 @@
             <p r-text="name"></p>
             <!-- 事件-->
             <p @click="getName">调用方法</p>
+            <p @click="observeArr">数组响应式</p>
         </div>
 
         <script src="index.js"></script>
@@ -29,11 +30,16 @@
             data: {
                 counter: 1,
                 html: '<span style="color:red;">hello world</span>',
-                name: ''
+                name: '',
+                arr: [1,2]
             },
             methods: {
                 getName(){
                     alert(this.name)
+                },
+                observeArr(){
+                    this.arr.push(3);
+                    alert(this.arr);
                 }
             }
         })

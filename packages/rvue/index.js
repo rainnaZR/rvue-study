@@ -85,12 +85,37 @@ class Dep{
     }
 }
 
+/**
+ * 数组响应式
+ * 替换数组原型中的7个方法
+ * **/
+const originalProto = Array.prototype;
+const arrayProto = Object.create(originalProto);
+['push', 'pop', 'shift', 'unshift', 'reverse', 'sort', 'splice'].forEach(method => {
+    arrayProto[method] = function(){
+        // 原始操作
+        originalProto[method].apply(this, arguments);
+        // 覆盖操作：通知更新
+        console.log(`数组执行${method}操作`);
+    }
+}) 
 
 // 第一步：数据响应式实现，这里使用Object.defineProperty()实现
 function observe(obj){
     // 先对obj做校验，确定obj为对象
     if(typeof obj !== 'object' || obj == null) return;
   
+    // 判定obj类型，如果是数组
+    if(Array.isArray(obj)){
+        // 覆盖原型，替换7个原型上的操作
+        obj.__proto__ = arrayProto;
+        // 对数组内部元素执行响应化，执行覆盖原型的操作
+        let keys = Object.keys(obj);
+        for(let i = 0; i< keys.length; i++){
+            observe(obj[i]);
+        }
+    }
+
     // 遍历obj的属性，使每个属性为响应式属性
     Object.keys(obj).forEach(key => {
         defineReactive(obj, key, obj[key]);
